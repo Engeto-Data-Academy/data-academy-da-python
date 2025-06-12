@@ -64,6 +64,7 @@ commit;
 
 ----- rok | prumer_mezd | prumer_potravin
 
+
 with price_average as (
 	select extract(year from date_from) as price_year, round(avg(value)::numeric, 2) as price_value from czechia_price group by extract(year from date_from)
 ),
@@ -72,3 +73,20 @@ pay_average as (
 )
 
 select * from price_average pra join pay_average pa on pra.price_year = pa.payroll_year;
+
+
+create function add_integers(x int, y int)
+returns integer
+as $$
+begin
+	return x + y;
+end;
+$$ language plpgsql;
+
+
+create procedure create_user(p_name text, p_age int)
+as $$
+begin
+	insert into users(name, age) values (p_name, p_age);
+end;
+$$ language plpgsql;
